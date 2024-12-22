@@ -1,0 +1,13 @@
+﻿@model distant.Models.Test
+
+<h2>@Model.Title</h2>
+<form method="post" action="/Test/Submit">
+    @foreach (var question in Model.Questions)
+    {
+        <div>
+            <label>@question.Text</label>
+            <input type="text" name="answers[@question.Id]" required />
+        </div>
+    }
+    <button type="submit">Отправить</button>
+</form>

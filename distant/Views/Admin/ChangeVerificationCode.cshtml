@@ -1,0 +1,37 @@
+﻿@model distant.ViewModels.ChangeVerificationCodeViewModel
+
+@{
+    ViewData["Title"] = "Изменить код подтверждения";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+    <div>
+        <label for="CurrentVerificationCode">Текущий код:</label>
+        <input type="text" id="CurrentVerificationCode" name="CurrentVerificationCode" value="@Model.CurrentVerificationCode" readonly />
+    </div>
+
+    <div>
+        <label for="NewVerificationCode">Новый код:</label>
+        <input type="text" id="NewVerificationCode" name="NewVerificationCode" value="@Model.NewVerificationCode" required />
+    </div>
+
+    <div>
+        <label for="ConfirmNewVerificationCode">Подтвердите новый код:</label>
+        <input type="text" id="ConfirmNewVerificationCode" name="ConfirmNewVerificationCode" value="@Model.ConfirmNewVerificationCode" required />
+    </div>
+
+    <button type="submit">Изменить код</button>
+</form>
+
+@if (ViewData.ModelState != null && ViewData.ModelState.Values.Any(v => v.Errors.Any()))
+{
+    <div style="color:red;">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}

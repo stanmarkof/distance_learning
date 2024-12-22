@@ -1,0 +1,11 @@
+﻿@model distant.Models.Group
+
+<h2>Создать группу</h2>
+
+<form asp-action="CreateGroup" method="post">
+    <div class="form-group">
+        <label for="Name">Название группы</label>
+        <input type="text" class="form-control" id="Name" name="Name" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Создать</button>
+</form>

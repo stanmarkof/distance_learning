@@ -1,0 +1,18 @@
+﻿<h2>Создать урок</h2>
+
+<form asp-action="CreateLesson" asp-controller="Lecturer" method="post">
+    <div class="form-group">
+        <label for="Name">Название</label>
+        <input type="text" class="form-control" id="Name" name="Name" />
+    </div>
+    <div class="form-group">
+        <label>Выберите группы</label>
+        <select class="form-control" name="groupIds" multiple>
+            @foreach (var group in (MultiSelectList)ViewBag.Groups)
+            {
+                <option value="@group.Value" @(group.Selected ? "selected" : "")>@group.Text</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Создать</button>
+</form>

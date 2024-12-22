@@ -1,0 +1,24 @@
+﻿<h2>Функционал</h2>
+
+
+
+    @if (User.IsInRole("Admin"))
+    {
+        <p>
+            <a href="@Url.Action("ManageUsers", "Admin")
+                    ">Управление пользователями</a>.
+        </p>
+        <p>
+            <a href="@Url.Action("CreateGroup", "Admin")
+                            ">Создать группу</a>.
+        </p>
+        <p>
+            <a href="@Url.Action("ChangeVerificationCode", "Admin")
+                            ">Настройка кода</a>.
+        </p>
+        <p>
+            <a href="@Url.Action("ViewFeedbacks", "Admin")
+                                    ">Просмотр обратной связи</a>.
+        </p>
+    }
+

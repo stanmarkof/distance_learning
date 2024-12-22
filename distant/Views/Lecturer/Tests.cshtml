@@ -1,0 +1,29 @@
+﻿@model IEnumerable<distant.Models.Test>
+
+<h2>Тесты для урока</h2>
+
+<a href="@Url.Action("CreateTest", "Lecturer", new { lessonId = ViewBag.LessonId })" class="btn btn-primary">Создать тест</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var test in Model)
+        {
+            <tr>
+                <td>@test.Title</td>
+                <td>
+                    <a href="@Url.Action("EditTest", "Lecturer", new { id = test.Id })" class="btn btn-warning">Редактировать</a>
+                    <form asp-action="DeleteTest" asp-controller="Lecturer" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@test.Id" />
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

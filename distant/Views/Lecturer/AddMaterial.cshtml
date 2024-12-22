@@ -1,0 +1,14 @@
+﻿@model distant.Models.Material
+
+<h2>Добавить материал</h2>
+
+<form asp-action="AddMaterial" asp-controller="Lecturer" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="LessonId" />
+
+    <div class="form-group">
+        <label for="File">Файл</label>
+        <input type="file" class="form-control" id="File" name="file" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Добавить</button>
+</form>

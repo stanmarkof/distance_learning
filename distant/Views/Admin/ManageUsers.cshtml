@@ -1,0 +1,96 @@
+﻿@model List<distant.ViewModels.UserRoleViewModel>
+
+<h2>Управление пользователями</h2>
+
+<!-- Форма поиска с фильтрацией по UserId и Роли -->
+<form method="get" action="@Url.Action("ManageUsers", "Admin")">
+    <div class="form-group">
+        <label for="searchUserId">Поиск по ID пользователя</label>
+        <input type="text" class="form-control" id="searchUserId" name="searchUserId" placeholder="Введите ID пользователя" value="@ViewData["SearchUserId"]" />
+    </div>
+
+    <div class="form-group">
+        <label for="searchRole">Фильтр по роли</label>
+        <select class="form-control" id="searchRole" name="searchRole">
+            <option value="">Все роли</option>
+            <option value="Admin" @(ViewData["SearchRole"]?.ToString() == "Admin" ? "selected" : "")>Admin</option>
+            <option value="Lecturer" @(ViewData["SearchRole"]?.ToString() == "Lecturer" ? "selected" : "")>Lecturer</option>
+            <option value="Student" @(ViewData["SearchRole"]?.ToString() == "Student" ? "selected" : "")>Student</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Поиск</button>
+</form>
+
+<hr />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID пользователя</th>
+            <th>Имя пользователя</th>
+            <th>Роли</th>
+            <th>Изменить роль</th>
+            <th>Изменить данные</th>
+            <th>Удалить</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserId</td>
+                <td>@user.UserName</td>
+                <td>
+                    @foreach (var role in user.Roles)
+                    {
+                        <span>@role</span>
+                        <br />
+                    }
+                </td>
+                <td>
+                    <form method="post" action="@Url.Action("ChangeRole", "Admin")">
+                        <input type="hidden" name="UserId" value="@user.UserId" />
+                        <select name="NewRole" class="form-control">
+                            <option value="Admin" @(user.Roles.Contains("Admin") ? "selected" : "")>Admin</option>
+                            <option value="Lecturer" @(user.Roles.Contains("Lecturer") ? "selected" : "")>Lecturer</option>
+                            <option value="Student" @(user.Roles.Contains("Student") ? "selected" : "")>Student</option>
+                        </select>
+
+                        <!-- Отображаем группы только если пользователь студент -->
+                        @if (user.Roles.Contains("Student"))
+                        {
+                            <select name="GroupId" class="form-control mt-2">
+                                <option value="">-- Выберите группу --</option>
+                                @foreach (var group in ViewBag.Groups)
+                                {
+                                    <option value="@group.Value" @(user.GroupId == int.Parse(group.Value) ? "selected" : "")>
+                                        @group.Text
+                                    </option>
+                                }
+                            </select>
+                        }
+                        else
+                        {
+                            <!-- Если пользователь не студент, скрываем поле выбора группы -->
+                            <input type="hidden" name="GroupId" value="" />
+                        }
+
+                        <button type="submit" class="btn btn-primary mt-2">Обновить</button>
+                    </form>
+                </td>
+
+                <td>
+                    <a href="@Url.Action("Edit", "Account", new { userId = user.UserId })" class="btn btn-secondary">Изменить данные</a>
+                </td>
+                <td>
+                    <form method="post" action="@Url.Action("DeleteUser", "Admin")" class="delete-form" data-user-id="@user.UserId">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="userId" value="@user.UserId" />
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить этого пользователя?');">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

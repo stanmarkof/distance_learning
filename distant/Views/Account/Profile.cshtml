@@ -1,0 +1,29 @@
+﻿@model distant.ViewModels.ProfileViewModel
+
+@{
+    ViewData["Title"] = "Личный кабинет";
+}
+
+<div>
+    <h3>Информация о пользователе</h3>
+    <p><strong>Имя пользователя:</strong> @Model.UserName</p>
+    <p><strong>Электронная почта:</strong> @Model.Email</p>
+    <p><strong>Имя:</strong> @Model.FirstName</p>
+    <p><strong>Фамилия:</strong> @Model.LastName</p>
+    <p><strong>Отчество:</strong> @Model.MiddleName</p>
+    <p><strong>Роль:</strong> @Model.Role</p>
+</div>
+
+@if (User.IsInRole("Admin"))
+{
+    <div>
+        <a href="@Url.Action("ManageUsers", "Admin")">Изменить данные в управлении пользователями</a>
+    </div>
+}        
+else
+{
+    <div>
+        <a href="@Url.Action("Edit", "Account")">Изменить данные</a>
+    </div>
+}
+

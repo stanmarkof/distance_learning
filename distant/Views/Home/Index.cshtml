@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Главная страница";
+}
+
+<h2>Добро пожаловать в Distant</h2>
+
+<p>Платформа дистанционного обучения студента.</p>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p></p>
+    if (User.IsInRole("Student"))
+    {
+        <p>Ваша текущая роль - студент.</p>
+        <p>Если вы не являетесь студентом, дождитесь, пока администратор назначит вам другую роль.</p>
+    }
+
+    @if (!User.IsInRole("Admin"))
+    {
+        <p>Если у вас есть какие-либо предложения или замечания, <a href="@Url.Action("SubmitFeedback", "Feedback")
+            ">оставьте свой отзыв</a>.</p>
+    }
+
+}
+else
+{
+    <p>Чтобы начать, <a href="@Url.Action("Login", "Account")">войдите в систему</a> или <a href="@Url.Action("Register", "Account")">зарегистрируйтесь</a>.</p>
+}

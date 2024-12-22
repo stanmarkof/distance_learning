@@ -1,0 +1,36 @@
+﻿@model IEnumerable<distant.Models.Lesson>
+
+<h2>Мои уроки</h2>
+
+<a href="@Url.Action("CreateLesson", "Lecturer")" class="btn btn-primary">Создать урок</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Группы</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var lesson in Model)
+        {
+            <tr>
+                <td>@lesson.Name</td>
+                <td>
+                    @string.Join(", ", lesson.Groups.Select(g => g.Name))
+                </td>
+
+                <td>
+                    <a href="@Url.Action("EditLesson", "Lecturer", new { id = lesson.Id })" class="btn btn-warning">Редактировать</a>
+                    <form asp-action="DeleteLesson" asp-controller="Lecturer" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@lesson.Id" />
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                    </form>
+                    <a href="@Url.Action("AddMaterial", "Lecturer", new { lessonId = lesson.Id })" class="btn btn-secondary">Добавить материал</a>
+                    <a href="@Url.Action("Tests", "Lecturer", new { lessonId = lesson.Id })" class="btn btn-info">Управление тестами</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
