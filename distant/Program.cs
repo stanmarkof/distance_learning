@@ -74,6 +74,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 
+app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

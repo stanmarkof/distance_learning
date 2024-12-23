@@ -1,0 +1,9 @@
+﻿@model distant.Models.Material
+
+<h2>@Model.Title</h2>
+<p>@Model.Content</p>
+<form action="@Url.Action("DeleteMaterial", "Lecturer")" method="post" style="display:inline;">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <button type="submit" class="btn btn-danger">Удалить</button>
+</form>
+

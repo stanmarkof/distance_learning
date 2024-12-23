@@ -1,0 +1,1339 @@
+swagger: '2.0'
+info:
+  version: 3.1.1
+  title: Befutsal
+
+basePath: /m
+
+################################################################################
+#                                     Path                                     #
+################################################################################
+paths:
+
+##########################
+  /chargebetaccount:
+    parameters:
+      - name: amount
+        in: query
+        description: сумма для пополнения
+        type: number
+        required: false
+    post:
+      description: |
+        пополнение счета в прогнозах за просмотр рекламы //10.10.2017 - konushin
+      responses:
+        '200':
+          description: Аккаунт в ставках
+          schema:
+            type: object
+            properties:
+              betAccount:
+                  $ref: '#/definitions/BetAccount'
+        '400':
+          description: Неверный запрос
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '401':
+          description: Необходимо авторизоваться
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '423':
+          description: Не приняты условия конкурса прогнозов, необходимо вызвать метод acceptbetline
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+##########################
+  /next_matches:
+    parameters:
+      - name: team_id
+        in: query
+        description: id команды
+        type: integer
+        required: true
+    get:
+      description: |
+        получение списка будущих игр
+      responses:
+        '200':
+          description: Список предстоящих игр
+          schema:
+            type: object
+            properties:
+              nextmatches:
+                type: array
+                items:
+                  $ref: '#/definitions/Schedule'
+        '400':
+          description: Неверный запрос
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '401':
+          description: Необходимо авторизоваться
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+###########################
+  /addbet:
+    parameters:
+      - name: schedule_id
+        in: query
+        description: id матча в расписании
+        type: integer
+        required: true
+
+      - name: bet_type
+        in: query
+        description: тип ставки [0=Н, 1=П1, 2=П2, 3=ТоталБ, 4=ТоталМ]
+        type: integer
+        required: true
+
+      - name: amount
+        in: query
+        description: сумма ставки
+        type: number
+        required: true
+
+    post:
+      description: |
+        Cделать ставку
+      responses:
+        '200':
+          description: Ставка принята
+          schema:
+            type: object
+            properties:
+              result:
+                 $ref: '#/definitions/Result'
+        '400':
+          description: Неверный запрос (текст ошибки в поле errorMsg - недостаточно баллов, матч начался, ставки не принимаются и т.п.)
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '401':
+          description: Необходимо авторизоваться
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '423':
+          description: Не приняты условия конкурса прогнозов, необходимо вызвать метод acceptbetline //10.02.2017 konushin//
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+###########################
+  /userbets:
+
+    get:
+      description: |
+        Ставки текущего пользователя
+      responses:
+        '200':
+          description: Массив ставок текущего пользователя
+          schema:
+            type: object
+            properties:
+              userbets:
+                type: array
+                items:
+                  $ref: '#/definitions/UserBet'
+        '400':
+          description: Неверный запрос
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '401':
+          description: Необходимо авторизоваться
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '423':
+          description: Не приняты условия конкурса прогнозов, необходимо вызвать метод acceptbetline //10.02.2017 konushin//
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+###########################
+  /acceptbetline:
+
+    get:
+      description: |
+        Регистрация в конкурсе прогнозов
+      responses:
+        '200':
+          description: Аккаунт в ставках
+          schema:
+            type: object
+            properties:
+              betAccount:
+                  $ref: '#/definitions/BetAccount'
+        '400':
+          description: Неверный запрос (в т.ч. если аккаунт уже создан или конкурс завершен)
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '401':
+          description: Необходимо авторизоваться
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+###########################
+  /betaccount:
+
+    get:
+      description: |
+        Мой текущий счет в ставках
+      responses:
+        '200':
+          description: Аккаунт в ставках
+          schema:
+            type: object
+            properties:
+              betAccount:
+                  $ref: '#/definitions/BetAccount'
+        '400':
+          description: Неверный запрос
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '401':
+          description: Необходимо авторизоваться
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '423':
+          description: Не приняты условия конкурса прогнозов, необходимо вызвать метод acceptbetline //10.02.2017 konushin//
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+###########################
+  /betlinedetails:
+
+    get:
+      description: |
+        Условия турнира ставок
+      responses:
+        '200':
+          description: Условия турнира ставок
+          schema:
+            type: object
+            properties:
+              betLine:
+                  $ref: '#/definitions/BetLine'
+        '400':
+          description: Неверный запрос
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '401':
+          description: Необходимо авторизоваться
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+###########################
+  /betlinetable:
+
+    get:
+      description: |
+        Таблица турнира ставок
+      responses:
+        '200':
+          description: Таблица пользователей в ставках
+          schema:
+            type: object
+            properties:
+              betAccounts:
+                type: array
+                items:
+                  $ref: '#/definitions/BetAccount'
+        '401':
+          description: Необходимо авторизоваться
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '423':
+          description: Не приняты условия конкурса прогнозов, необходимо вызвать метод acceptbetline //10.02.2017 konushin//
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+##########################
+  /immediate_games:
+    parameters:
+      - name: team_id
+        in: query
+        description: id команды
+        type: integer
+        required: true
+    get:
+      description: |
+        Получение списка ближайших игр //15.07.2016 konushin//
+      responses:
+        '200':
+          description: Запрос выполнен успешно
+          schema:
+            type: object
+            properties:
+              protocols:
+                type: array
+                items:
+                  $ref: '#/definitions/Protocol'
+              schedules:
+                type: array
+                items:
+                  $ref: '#/definitions/Schedule'
+        '400':
+          description: Неверный запрос
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '401':
+          description: Необходимо авторизоваться
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+##########################
+  /teamdetails:
+    parameters:
+      - name: team_id
+        in: query
+        description: id команды
+        type: integer
+        required: true
+      - name: competition_id
+        in: query
+        description: id чемпионата
+        type: integer
+        required: true
+    get:
+      description: |
+        Получение детальной информации по команде, список сыгранных матчей, список будущих матчей, состав команды ПО ЧЕМПИОНАТУ //15.07.2016 konushin//
+      responses:
+        '200':
+          description: Детальная информация по команде
+          schema:
+            type: object
+            properties:
+              teamdetails:
+                $ref: '#/definitions/TeamDetails'
+        '400':
+          description: Неверный запрос
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '401':
+          description: Необходимо авторизоваться
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+##########################
+  /teams:
+    get:
+      description: |
+        Получение списка команд //15.07.2016 konushin//
+      responses:
+        '200':
+          description: JSON массив всех команд из БД
+          schema:
+            type: object
+            properties:
+              teams:
+                type: array
+                items:
+                  $ref: '#/definitions/Team'
+        '401':
+          description: Необходимо авторизоваться
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+
+
+##########################
+  /protocols:
+    parameters:
+      - name: team_id
+        in: query
+        description: id команды
+        type: integer
+        required: true
+    get:
+      description: |
+        НА БУДУЩЕЕ! ПОКА НЕ РЕАЛИЗОВЫВАТЬ! Получение списка уже состоявщихся игр для команды team_id //15.07.2016 konushin//
+      responses:
+        '200':
+          description: Список последних 5 состоявшихся игр
+          schema:
+            type: object
+            properties:
+              protocols:
+                type: array
+                items:
+                  $ref: '#/definitions/Protocol'
+        '400':
+          description: Неверный запрос
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '401':
+          description: Необходимо авторизоваться
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+##########################
+  /detailed_protocol:
+    parameters:
+      - name: protocol_id
+        in: query
+        description: id протокола
+        type: integer
+        required: true
+    get:
+      description: |
+        Получение детального протокола protocol_id //15.07.2016 konushin//
+      responses:
+        '200':
+          description: протокол матча + составы команд
+          schema:
+            type: object
+            properties:
+              detailedProtocol:
+                  $ref: '#/definitions/DetailedProtocol'
+        '400':
+          description: Неверный запрос
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '401':
+          description: Необходимо авторизоваться
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+##########################
+  /login:
+    parameters:
+      - name: email
+        in: query
+        description: email или username пользователя
+        type: string
+        required: true
+      - name: password
+        in: query
+        description: md5 пароля
+        type: string
+        required: true
+      - name: uid
+        in: query
+        description: UserID в OneSignal service
+        type: string
+        required: false
+    post:
+      description: |
+        Вход в приложение //22.07.2016 konushin: можно входить по username в том числе//
+      responses:
+        '200':
+          description: данные пользователя
+          schema:
+            type: object
+            properties:
+              user:
+                  $ref: '#/definitions/User'
+        '400':
+          description: Неверный логин и/или пароль, или пустой/не пришел UID
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+##########################
+  /logout:
+    get:
+      description: |
+        Выход из приложения //25.07.2016 konushin: возвращаемый тип - объект//
+      responses:
+        '200':
+          description: Успешный вход
+          schema:
+            type: object
+            properties:
+              result:
+                 $ref: '#/definitions/Result'
+        '400':
+          description: Сбой при выходе
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+
+##########################
+  /register:
+    parameters:
+      - name: username
+        in: query
+        description: имя пользователя
+        type: string
+        required: true
+      - name: email
+        in: query
+        description: email пользователя
+        type: string
+        required: true
+      - name: password
+        in: query
+        description: base64 пароля
+        type: string
+        required: true
+      - name: uid
+        in: query
+        description: UID устройства
+        type: string
+        required: true
+      - name: avatar
+        in: query
+        description: аватарка, массив байт //ПОКА НЕ ДЕЛАЕМ
+        type: string
+        required: false
+    post:
+      description: |
+        Регистрация в приложении //15.07.2016 konushin//
+      responses:
+        '200':
+          description: данные пользователя
+          schema:
+            type: object
+            properties:
+              user:
+                  $ref: '#/definitions/User'
+        '400':
+          description: Непредвиденная ошибка/Имя пользователя меньше 3 или больше 16 символов/Некорректный формат e-mail/Пользователь с таким именем/email уже зарегистрирован/
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+##########################
+  /changepassword:
+    parameters:
+      - name: login
+        in: query
+        description: email или username пользователя
+        type: string
+        required: true
+      - name: new_password
+        in: query
+        description: новый пароль в md5
+        type: string
+        required: false
+      - name: old_password
+        in: query
+        description: старый пароль в md5
+        type: string
+        required: false
+    post:
+      description: |
+        Смена пароля //27.07.2016 konushin - возвращаемый тип - объект//
+      responses:
+        '200':
+          description: пользователь найден, активен, email отправлен
+          schema:
+            type: object
+            properties:
+              result:
+                 $ref: '#/definitions/Result'
+        '400':
+          description: Пользователь не найден
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '401':
+          description: Текущий пароль введен неверно
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+##########################
+  /favourites:
+    parameters:
+      - name: add
+        in: query
+        description: тип операции. true=добавить, false=удалить из избранного
+        type: boolean
+        required: true
+      - name: team_id
+        in: query
+        description: id команды
+        type: integer
+        required: true
+    post:
+      description: |
+        Работа с избранными командами //21.07.2016 konushin: возвращаю список Team, а не team_id//
+      responses:
+        '200':
+          description: список избранных команд
+          schema:
+            type: object
+            properties:
+              favourites:
+                type: array
+                items:
+                  $ref: '#/definitions/Team'
+        '400':
+          description: Неверный запрос
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '401':
+          description: Необходимо авторизоваться
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '406':
+          description: Первышено максимальное количество команд в избранном //08.06.2024 konushin: Новая ошибка//
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'                 
+
+##########################
+  /addpayload:
+    parameters:
+      - name: payload
+        in: query
+        description: уникальная строка идентификатор покупки
+        type: string
+        required: true
+    post:
+      description: |
+        Android specific! Функция добавляет payload покупки для текущего пользователя //25.07.2016 konushin - возвращаемый тип - объект//
+      responses:
+        '200':
+          description: payload успешно добавился к пользователю
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Result'
+        '400':
+          description: Произошла ошибка
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '401':
+          description: Необходимо авторизоваться
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+##########################
+  /contacts:
+    get:
+      description: |
+        Динамическое получение контактов федераций //17.02.2017 konushin//
+      responses:
+        '200':
+          description: список контактов федераций
+          schema:
+            type: object
+            properties:
+              contacts:
+                type: array
+                items:
+                  $ref: '#/definitions/ContactFederation'
+        '401':
+          description: Необходимо авторизоваться
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+##########################
+  /leaguelist:
+    get:
+      description: |
+        Получение списка актуальных турниров //04.06.2019 konushin//
+      responses:
+        '200':
+          description: список турниров сезона
+          schema:
+            type: object
+            properties:
+              contacts:
+                type: array
+                items:
+                  $ref: '#/definitions/Competition'
+        '400':
+          description: Неверный запрос
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '401':
+          description: Необходимо авторизоваться
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+##########################
+  /leaguetable:
+    parameters:
+      - name: competition_id
+        in: query
+        description: id турнира
+        type: integer
+        required: true
+    get:
+      description: |
+        Получение таблицы турнира //04.06.2019 konushin//
+      responses:
+        '200':
+          description: таблица турнира
+          schema:
+            type: object
+            properties:
+              table:
+                type: array
+                items:
+                  $ref: '#/definitions/TableItem'
+        '400':
+          description: Неверный запрос
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+        '401':
+          description: Необходимо авторизоваться
+          schema:
+            type: object
+            properties:
+              error:
+                 $ref: '#/definitions/Error'
+
+################################################################################
+#                                     Definitions                              #
+################################################################################
+
+definitions:
+  Protocol:
+    type: object
+    description: Детальная информация по матчу/протоколу, без составов команд //15.07.2016 konushin//
+    properties:
+      id_protocol:
+        type: integer
+        description: id протокола
+      league:
+        type: string
+        description: Название турнира
+      dt_protocol:
+        type: string
+        format: date
+        description: Дата и время матча
+      ref_1:
+        type: string
+        description: Судья №1
+      ref_2:
+        type: string
+        description: Судья №2
+      id_team_1:
+        type: integer
+        description: id команды 1
+      team_1:
+        type: string
+        description: Название команды 1
+      team_1_emblem:
+        type: string
+        description: url к эмблеме команды 1
+      id_team_2:
+        type: integer
+        description: id команды 2
+      team_2:
+        type: string
+        description: Название команды 2
+      team_2_emblem:
+        type: string
+        description: url к эмблеме команды 2
+      score_half_1:
+        type: integer
+        description: Голы первой команды за первый период
+      score_end_1:
+        type: integer
+        description: Голы первой команды за второй период
+      score_half_2:
+        type: integer
+        description: Голы второй команды за первый период
+      score_end_2:
+        type: integer
+        description: Голы второй команды за второй период
+      fouls_half_1:
+        type: integer
+        description: Фолы первой команды в первом тайме
+      fouls_end_1:
+        type: integer
+        description: Фолы первой команды во втором тайме
+      fouls_half_2:
+        type: integer
+        description: Фолы второй команды в первом тайме
+      fouls_end_2:
+        type: integer
+        description: Фолы второй команды во втором тайме
+      forfeited:
+        type: integer
+        description: если 1, то техническое поражение обеим командам, записываем как "-:-"
+
+  DetailedProtocol:
+    type: object
+    description: Детальный протокол + состав команд в этом матче/протоколе //15.07.2016 konushin//
+    properties:
+      protocol:
+        type: array
+        description: общая информация по протоколу
+        items:
+          $ref: '#/definitions/Protocol'
+      players_home:
+        type: array
+        description: список игроков первой команды, участвовавших в данном матче
+        items:
+          $ref: '#/definitions/PlayerInGame'
+      players_away:
+        type: array
+        description: список игроков второй команды, участвовавших в данном матче
+        items:
+          $ref: '#/definitions/PlayerInGame'
+
+  Schedule:
+    type: object
+    description: Матч расписания //15.07.2016 konushin//
+    properties:
+      id_schedule:
+        type: integer
+        description: id расписания
+      league:
+        type: string
+        description: Название турнира
+      team_1:
+        type: string
+        description: Название команды 1
+      team_1_emblem:
+        type: string
+        description: url к эмблеме команды 1
+      team_2:
+        type: string
+        description: Название команды 2
+      team_2_emblem:
+        type: string
+        description: url к эмблеме команды 2
+      date:
+        type: string
+        description: Дата
+      time:
+        type: string
+        description: Время
+      pitch:
+        type: string
+        description: Площадка
+      bet_rate:
+        type: object
+        description: коэффициенты ставок на данную игру
+        items:
+          $ref: '#/definitions/BetRate'
+      bet:
+        type: object
+        description: ваша ставка на данную игру
+        items:
+          $ref: '#/definitions/Bet'
+
+  Team:
+    type: object
+    description: Краткая информация по команде со списком турниров //15.07.2016 konushin//
+    properties:
+      id_team:
+        type: integer
+        description: id команды
+      title:
+        type: string
+        description: Название команды
+      team_history:
+        type: array
+        description: список других названий команды
+        items:
+         type: string
+      founded:
+        type: integer
+        description: Год основания команды, null = неизвестен
+      emblem_path:
+        type: string
+        description: url до эмблемы команды
+      competitions:
+        type: array
+        description: список чемпионатов, в которых участвует команда в текущем сезоне
+        items:
+          $ref: '#/definitions/Competition'
+
+
+  Player:
+    type: object
+    description: Персональная информация по игроку //16.07.2016 konushin - //
+    properties:
+      id_player:
+        type: integer
+        description: id игрока
+      name_1:
+        type: string
+        description: Имя
+      name_2:
+        type: string
+        description: Фамилия
+      birthdate:
+        type: string
+        description: Дата Рождения, null = неизвестна
+      photo:
+        type: string
+        description: url к фоточке
+      goalie:
+        type: integer
+        description: вратарь? (только в этом турнире)
+      played:
+        type: integer
+        description: сыграл игр в этом турнире
+      scored:
+        type: integer
+        description: забил голов в этом турнире
+      booked:
+        type: integer
+        description: желтых карточек в этом турнире
+      sentoff:
+        type: integer
+        description: красных карточек в этом турнире
+      number:
+        type: integer
+        description: игровой номер //03.03.2017 konushin//
+
+  PlayerInGame:
+    type: object
+    description: Информация об игроке в конкретном матче/протоколе //15.07.2016 konushin//
+    properties:
+      scored_in_match:
+        type: integer
+        description: забил в матче
+      owngoal:
+        type: integer
+        description: забил в свои ворота (автогол) //14.11.2016 konushin//
+      booked:
+        type: boolean
+        description: получил желтую карточку
+      sentoff:
+        type: boolean
+        description: был удален
+    allOf:
+     - $ref: '#/definitions/Player' # PlayerInGame has all properties of a Player
+
+  Competition:
+    type: object
+    description: Информация о турнире (лиге, чемпионате, кубке и т.п.) //15.07.2016 konushin//
+    properties:
+      id_competition:
+        type: integer
+        description: id чемпионата
+      title:
+        type: string
+        description: название чемпионата
+      icon:
+        type: string
+        description: полный URL логотипа категории турнира //21.02.2020 konushin//
+
+  TeamDetails:
+    type: object
+    description: Детальная информация по команде //15.07.2016 konushin//
+    properties:
+      competitor_id:
+        type: integer
+        description: id команды в данном турнире
+      competitor_title:
+        type: string
+        description: Название команды в данном турнире
+      tshirt_home:
+        type: string
+        description: url до домашней формы
+      tshirt_away:
+        type: string
+        description: url до гостевой формы
+      pld:
+        type: string
+        description: Количество сыгранных матчей
+      won:
+        type: integer
+        description: Побед
+      drew:
+        type: integer
+        description: ничьих
+      lost:
+        type: integer
+        description: Поражений
+      scored:
+        type: integer
+        description: Забито
+      missed:
+        type: integer
+        description: Пропущено
+      pts:
+        type: integer
+        description: очков
+      players:
+        type: array
+        description: Состав команды в этом турнире
+        items:
+          $ref: '#/definitions/Player'
+      next_matches:
+        type: array
+        description: Будущие игры в этом турнире
+        items:
+          $ref: '#/definitions/Schedule'
+      protocols:
+        type: array
+        description: Сыгранные матчи в этом турнире
+        items:
+          $ref: '#/definitions/Protocol'
+      table:
+        type: array
+        description: турнирная таблица
+        items:
+          $ref: '#/definitions/TableItem'
+    allOf:
+     - $ref: '#/definitions/Team' # TeamDetails has all properties of a Team
+
+  User:
+    type: object
+    description: Пользователь мобильного приложения //15.07.2016 konushin//
+    properties:
+      user_id:
+        type: integer
+        description: id пользователя
+      username:
+        type: string
+        description: имя пользователя
+      email:
+        type: string
+        description: email пользователя
+      avatar:
+        type: string
+        description: url до аватарки
+      payload_value:
+        type: string
+        description: payload покупки для текущего пользователя
+      payload_timestamp:
+        type: integer
+        description: дата покупки
+      user_player:
+        type: integer
+        description: id игрока, сопоставленного с пользователем
+      favourites:
+        type: array
+        description: массив избранных команд
+        items:
+          $ref: '#/definitions/Team'
+      device_id: UserID в OneSignal service
+
+  TableItem:
+    type: object
+    description: команда в турнирной таблице //10.08.2016 konushin - возвращаю дополнительно id турнира и команды//
+    properties:
+      competition_id:
+        type: integer
+        description: id турнира
+      team_id:
+        type: integer
+        description: id команды
+      position:
+        type: integer
+        description: место
+      title:
+        type: string
+        description: Название команды
+      pld:
+        type: integer
+        description: матчей сыграно
+      won:
+        type: integer
+        description: Побед
+      drew:
+        type: integer
+        description: ничьих
+      lost:
+        type: integer
+        description: Поражений
+      scored:
+        type: integer
+        description: Забито
+      missed:
+        type: integer
+        description: Пропущено
+      pts:
+        type: integer
+        description: очков
+      highlight:
+        type: boolean
+        description: подсветить? (выделяем текущую команду в таблице)
+
+  Error:
+    type: object
+    description: сообщение об ошибке //15.07.2016 konushin//
+    properties:
+      errorMsg:
+        type: string
+        description: Описание ошибки
+
+  Result:
+    type: object
+    description: результат операции //25.07.2016 konushin//
+    properties:
+      result:
+        type: string
+        description: Описание результата
+
+  BetRate:
+    type: object
+    description: Описание ставки на матч //31.10.2016 konushin//
+    properties:
+      bet_1:
+        type: number
+        description: коэффициент на победу 1-й команды
+      bet_0:
+        type: number
+        description: коэффициент на ничью
+      bet_2:
+        type: number
+        description: коэффициент на победу 2-й команды
+      bet_total:
+        type: number
+        description: тотал
+      bet_total_more:
+        type: number
+        description: коэффициент на тотал больше
+      bet_total_less:
+        type: number
+        description: коэффициент на тотал меньше
+
+  BetAccount:
+    type: object
+    description: Аккаунт в ставках //31.10.2016 konushin//
+    properties:
+      position:
+        type: integer
+        description: место в рейтинге
+      username:
+        type: string
+        description: имя пользователя
+      amount:
+        type: number
+        description: текущий счет
+      num_bets:
+        type: integer
+        description: кол-во сделанных ставок
+      amount_in_play:
+        type: number
+        description: сумма в розыгрыше
+      highlight:
+        type: boolean
+        description: подсветить? (выделяем текущего пользователя в таблице)
+
+  Bet:
+    type: object
+    description: Описание сделанной ставки на матч //10.11.2016 konushin//
+    properties:
+      bet_type:
+        type: integer
+        description: тип ставки, 1-Победа1, 0-Ничья, 2-Победа2, 3-ТоталБольше, 4-ТоталМеньше
+      bet_total:
+        type: number
+        description: значение тотала для этой ставки
+      bet_rate:
+        type: number
+        description: коэффициент на ставку
+      bet_amount:
+        type: number
+        description: сумма ставки
+      bet_played:
+        type: boolean
+        description: сыграна?
+      bet_protocol:
+        type: integer
+        description: id протокола, если матч сыгран //01.09.2017 konushin//
+      bet_result:
+        type: string
+        description: результат матча в формате строки, например "2:1" //01.09.2017 konushin//
+      bet_profit:
+        type: number
+        description: сумма выигрыша //01.09.2017 konushin//
+
+  UserBet:
+    type: object
+    description: Описание ставок текущего пользователя //11.11.2016 konushin//
+    properties:
+      id_schedule:
+        type: integer
+        description: id матча в расписании
+      league:
+        type: string
+        description: название лиги
+      team_1:
+        type: string
+        description: название команды 1
+      team_1_emblem_path:
+        type: string
+        description: url до эмблемы команды 1 //08.12.2017 konushin//
+      team_2:
+        type: string
+        description: название команды 2
+      team_2_emblem_path:
+        type: string
+        description: url до эмблемы команды 2 //08.12.2017 konushin//
+      date:
+        type: string
+        description: дата матча
+      time:
+        type: string
+        description: время матча
+    allOf:
+     - $ref: '#/definitions/Bet' # MyBet has all properties of a Bet
+
+  BetLine:
+    type: object
+    description: Описание условий конкурса ставок //10.02.2017 konushin//
+    properties:
+      name:
+        type: string
+        description: Название конкурса
+      description:
+        type: string
+        description: Описание/условия конкурса
+      valid_to:
+        type: string
+        description: Действует до
+      min_bets:
+        type: integer
+        description: Минимальное количество ставок
+      init_amount:
+        type: number
+        description: Начальная сумма на счету
+
+  ContactPerson:
+    type: object
+    description: Контактное лицо //17.02.2017 konushin//
+    properties:
+      name:
+        type: string
+        description: Полное имя
+      title:
+        type: string
+        description: Должность
+      worktel:
+        type: string
+        description: Рабочий телефон
+      mobtel:
+        type: string
+        description: Мобильный телефон
+      hometel:
+        type: string
+        description: Домашний телефон
+
+  ContactFederation:
+    type: object
+    description: Контакты федерации //17.02.2017 konushin//
+    properties:
+      title:
+        type: string
+        description: Название федерации
+      contact:
+        type: array
+        description: массив контактных лиц
+        items:
+          $ref: '#/definitions/ContactPerson'

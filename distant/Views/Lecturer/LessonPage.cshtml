@@ -1,0 +1,46 @@
+﻿@model distant.Models.Lesson
+
+<h2>@Model.Name</h2>
+
+<h5>Группы с доступом:</h5>
+<ul>
+    @foreach (var group in Model.Groups)
+    {
+        <li>@group.Name</li>
+    }
+</ul>
+
+<h5>Материалы для урока:
+<a href="@Url.Action("AddMaterial", "Lecturer", new { lessonId = Model.Id })" class="btn btn-secondary">Добавить материал</a>
+</h5>
+<ul>
+    @foreach (var material in Model.Materials)
+    {
+        <li>
+            <a href="@Url.Action("MaterialPage", "Lecturer", new { id = material.Id })">
+                <h6>@material.Title</h6>
+            </a>
+        </li>
+    }
+</ul>
+
+<h5>
+    Тесты для урока:
+    <a href="@Url.Action("CreateTest", "Lecturer", new { lessonId = Model.Id })" class="btn btn-primary">Создать тест</a>
+</h5>
+<ul>
+    @foreach (var test in Model.Tests)
+    {
+        <li>
+            <a href="@Url.Action("TestPage", "Lecturer", new { id = test.Id })">@test.Title</a>
+            <form action="@Url.Action("DeleteTest", "Lecturer")" method="post" style="display:inline;">
+                <input type="hidden" name="id" value="@test.Id" />
+                <button type="submit" class="btn btn-danger">Удалить</button>
+            </form>
+        </li>
+    }
+</ul>
+
+
+
+

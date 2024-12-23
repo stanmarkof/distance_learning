@@ -1,0 +1,27 @@
+﻿@model IEnumerable<distant.ViewModels.TestResultViewModel>
+
+<h2>Результаты теста: @ViewBag.TestTitle</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID Студента</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Группа</th>
+            <th>Результат</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var result in Model)
+        {
+            <tr>
+                <td>@result.StudentId</td>
+                <td>@result.FirstName</td>
+                <td>@result.LastName</td>
+                <td>@result.GroupName</td>
+                <td>@result.Score из @result.MaxScore</td>
+            </tr>
+        }
+    </tbody>
+</table>

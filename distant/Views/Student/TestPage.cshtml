@@ -1,0 +1,47 @@
+﻿@model distant.Models.Test
+
+@using Newtonsoft.Json
+
+<h2>@Model.Title</h2>
+
+<!-- Кнопка для начала теста -->
+<button id="startTestButton" type="button" onclick="startTest()">Начать тест</button>
+
+<!-- Раздел с вопросами, скрытый до начала теста -->
+<div id="testQuestions" style="display: none;">
+    <h4>Вопросы:</h4>
+    <form id="testForm" method="post" action="@Url.Action("SubmitTest", "Student")">
+        <input type="hidden" name="TestId" value="@Model.Id" />
+
+        @foreach (var question in Model.Questions)
+        {
+            <div class="question">
+                <strong>@question.Text</strong>
+                <ul>
+                    @foreach (var option in JsonConvert.DeserializeObject<List<string>>(question.Options))
+                    {
+                        <li>
+                            <input type="radio" name="Answers[@question.Id]" value="@option" /> @option
+                        </li>
+                    }
+                </ul>
+            </div>
+            <hr />
+        }
+
+        <button id="submitTestButton" type="submit" style="display: none;">Узнать результат</button>
+    </form>
+
+</div>
+
+<script>
+    // Функция для начала теста
+    function startTest() {
+        // Скрываем кнопку начала теста
+        document.getElementById('startTestButton').style.display = 'none';
+        // Показываем вопросы
+        document.getElementById('testQuestions').style.display = 'block';
+        // Показываем кнопку "Узнать результат"
+        document.getElementById('submitTestButton').style.display = 'inline';
+    }
+</script>

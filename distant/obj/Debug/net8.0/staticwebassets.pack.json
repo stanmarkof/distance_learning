@@ -245,6 +245,10 @@
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
+      "Id": "C:\\Users\\maffy\\OneDrive\\Рабочий стол\\учёба работа\\!5 семестр\\ТП\\distant\\wwwroot\\uploads\\api.txt",
+      "PackagePath": "staticwebassets\\uploads\\api.txt"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.distant.props",
       "PackagePath": "build\\distant.props"
     },

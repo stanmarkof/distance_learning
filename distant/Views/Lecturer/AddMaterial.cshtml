@@ -2,13 +2,27 @@
 
 <h2>Добавить материал</h2>
 
-<form asp-action="AddMaterial" asp-controller="Lecturer" method="post" enctype="multipart/form-data">
-    <input type="hidden" asp-for="LessonId" />
+<form action="/Lecturer/AddMaterial" method="post">
+    @Html.AntiForgeryToken()
+
+    <!-- Скрытое поле для передачи ID урока -->
+    <input type="hidden" name="LessonId" value="@ViewBag.LessonId" />
 
     <div class="form-group">
-        <label for="File">Файл</label>
-        <input type="file" class="form-control" id="File" name="file" />
+        <label for="Title">Заголовок</label>
+        <input type="text" class="form-control" id="Title" name="Title" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Добавить</button>
+    <div class="form-group">
+        <label for="Content">Содержимое</label>
+        <textarea class="form-control" id="Content" name="Content" rows="10"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Сохранить</button>
 </form>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.0/jquery.validate.unobtrusive.min.js"></script>
+}

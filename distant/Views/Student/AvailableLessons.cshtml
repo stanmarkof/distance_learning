@@ -1,0 +1,33 @@
+﻿@model IEnumerable<distant.Models.Lesson>
+
+<h2>Доступные уроки</h2>
+
+@if (!Model.Any())
+{
+    <p>Для вашей группы нет доступных уроков.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Название урока</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var lesson in Model)
+            {
+                <tr>
+                    <td>@lesson.Name</td>
+                    <td>
+                        <form action="@Url.Action("LessonPage", "Student")" method="get">
+                            <input type="hidden" name="id" value="@lesson.Id" />
+                            <button type="submit">Перейти к уроку</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

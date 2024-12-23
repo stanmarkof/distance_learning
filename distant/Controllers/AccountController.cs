@@ -127,6 +127,7 @@ namespace distant.Controllers
 
         // Личный кабинет
         [HttpGet]
+        [HttpGet]
         public async Task<IActionResult> Profile()
         {
             // Получаем текущего пользователя
@@ -137,6 +138,12 @@ namespace distant.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            // Проверяем, является ли пользователь студентом
+            var student = await _context.Users
+                .OfType<Student>()
+                .Include(s => s.Group) // Загружаем информацию о группе
+                .FirstOrDefaultAsync(s => s.Id == user.Id);
+
             // Создаем модель для отображения данных пользователя
             var model = new ProfileViewModel
             {
@@ -145,11 +152,13 @@ namespace distant.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 MiddleName = user.MiddleName,
-                Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault()
+                Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault(),
+                GroupName = student?.Group?.Name // Если пользователь студент, выводим название группы
             };
 
             return View(model);
         }
+
 
 
         // Редактирование данных пользователя (GET)

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "C9xBTINI//9dRnaYzpfWReZEJ0PIT38b2uF53oXWC1g=",
+  "Hash": "zwFShmSLiQKk9vat9PCIIEG67tRawcdXZPB1aUe4iYo=",
   "Source": "distant",
   "BasePath": "_content/distant",
   "Mode": "Default",
@@ -1193,6 +1193,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Identity": "C:\\Users\\maffy\\OneDrive\\Рабочий стол\\учёба работа\\!5 семестр\\ТП\\distant\\wwwroot\\uploads\\api.txt",
+      "SourceId": "distant",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\maffy\\OneDrive\\Рабочий стол\\учёба работа\\!5 семестр\\ТП\\distant\\wwwroot\\",
+      "BasePath": "_content/distant",
+      "RelativePath": "uploads/api.txt",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\api.txt"
     }
   ]
 }

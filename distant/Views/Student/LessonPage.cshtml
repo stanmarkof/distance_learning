@@ -1,0 +1,41 @@
+﻿@model distant.Models.Lesson
+
+<h2>@Model.Name</h2>
+
+<h5>Материалы:</h5>
+@if (!Model.Materials.Any())
+{
+    <p>Материалы отсутствуют.</p>
+}
+else
+{
+    <ul>
+        @foreach (var material in Model.Materials)
+        {
+            <li>
+                <a href="@Url.Action("MaterialPage", "Student", new { id = material.Id })">
+                    @material.Title
+                </a>
+            </li>
+        }
+    </ul>
+}
+
+<h5>Тесты:</h5>
+@if (!Model.Tests.Any())
+{
+    <p>Тесты отсутствуют.</p>
+}
+else
+{
+    <ul>
+        @foreach (var test in Model.Tests)
+        {
+            <li>
+                <a href="@Url.Action("TestPage", "Student", new { id = test.Id })">
+                    @test.Title
+                </a>
+            </li>
+        }
+    </ul>
+}

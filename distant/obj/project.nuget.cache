@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "17vpxowrrRntsTTjVthFsFvdOxEDSLCSDNtbdQMrRopnGX16v6Ilj1arvAb4HI6P7Jlqq9WhLwYrIhA3/iX3gg==",
+  "dgSpecHash": "oE3C8LoGDIqbg3NVmn3DMr7hlcVIc2G6uoFjO6HCEqbQbHGn6Atbz+tau4J3i6irIq/eLQ61gM9QyG3HCp7nzQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\maffy\\OneDrive\\Рабочий стол\\учёба работа\\!5 семестр\\ТП\\distant\\distant.csproj",
   "expectedPackageFiles": [
@@ -64,6 +64,7 @@
     "C:\\Users\\maffy\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
     "C:\\Users\\maffy\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "C:\\Users\\maffy\\.nuget\\packages\\mono.texttemplating\\3.0.0\\mono.texttemplating.3.0.0.nupkg.sha512",
+    "C:\\Users\\maffy\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\maffy\\.nuget\\packages\\system.clientmodel\\1.0.0\\system.clientmodel.1.0.0.nupkg.sha512",
     "C:\\Users\\maffy\\.nuget\\packages\\system.codedom\\6.0.0\\system.codedom.6.0.0.nupkg.sha512",
     "C:\\Users\\maffy\\.nuget\\packages\\system.collections.immutable\\7.0.0\\system.collections.immutable.7.0.0.nupkg.sha512",

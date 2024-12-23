@@ -62,6 +62,22 @@ namespace distant.Data
                 .HasForeignKey(l => l.LecturerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // Пример каскадного удаления для связанных данных
+            builder.Entity<Lesson>()
+                .HasMany(l => l.Materials)
+                .WithOne(m => m.Lesson)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Lesson>()
+                .HasMany(l => l.Tests)
+                .WithOne(t => t.Lesson)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Lesson>()
+                .HasMany(l => l.Groups)
+                .WithMany(g => g.Lessons) // для Many-to-Many каскадное удаление не работает напрямую
+                .UsingEntity(j => j.ToTable("LessonGroups")); // Определите таблицу связей
+
             // Связь между TestResult и Student
             builder.Entity<TestResult>()
                 .HasOne(tr => tr.Student)

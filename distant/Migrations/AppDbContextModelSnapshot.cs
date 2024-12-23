@@ -269,12 +269,16 @@ namespace distant.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("FilePath")
+                    b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -320,9 +324,6 @@ namespace distant.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("IsOpen")
-                        .HasColumnType("bit");
 
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
@@ -551,7 +552,7 @@ namespace distant.Migrations
             modelBuilder.Entity("distant.Models.Material", b =>
                 {
                     b.HasOne("distant.Models.Lesson", "Lesson")
-                        .WithMany()
+                        .WithMany("Materials")
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -573,7 +574,7 @@ namespace distant.Migrations
             modelBuilder.Entity("distant.Models.Test", b =>
                 {
                     b.HasOne("distant.Models.Lesson", "Lesson")
-                        .WithMany()
+                        .WithMany("Tests")
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -609,6 +610,13 @@ namespace distant.Migrations
                         .IsRequired();
 
                     b.Navigation("Group");
+                });
+
+            modelBuilder.Entity("distant.Models.Lesson", b =>
+                {
+                    b.Navigation("Materials");
+
+                    b.Navigation("Tests");
                 });
 
             modelBuilder.Entity("distant.Models.Test", b =>

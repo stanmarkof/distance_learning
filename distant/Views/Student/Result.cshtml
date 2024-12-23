@@ -1,0 +1,22 @@
+﻿@model distant.ViewModels.StudentTestResultViewModel
+
+<h2>Результаты теста</h2>
+
+<p>Вы прошли тест: <strong>@Model.TestTitle</strong></p>
+<p>Тема урока: <strong>@Model.LessonName</strong></p>
+<p>Ваш результат: <strong>@Model.Score</strong> из <strong>@Model.MaxScore</strong></p>
+
+@if (Model.Score == Model.MaxScore)
+{
+    <p>Отличная работа! Вы ответили правильно на все вопросы!</p>
+}
+else if (Model.Score >= Model.MaxScore / 2)
+{
+    <p>Хороший результат! Вы правильно ответили более чем на половину вопросов.</p>
+}
+else
+{
+    <p>Не переживайте! Попробуйте еще раз, чтобы улучшить результат.</p>
+}
+
+<a href="@Url.Action("AvailableLessons", "Student")">Вернуться к урокам</a>

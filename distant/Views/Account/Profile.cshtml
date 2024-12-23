@@ -12,7 +12,12 @@
     <p><strong>Фамилия:</strong> @Model.LastName</p>
     <p><strong>Отчество:</strong> @Model.MiddleName</p>
     <p><strong>Роль:</strong> @Model.Role</p>
+    @if (!string.IsNullOrEmpty(Model.GroupName))
+    {
+        <p><strong>Группа:</strong> @Model.GroupName</p>
+    }
 </div>
+
 
 @if (User.IsInRole("Admin"))
 {

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("distant")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+95578eb469b7d3dd4743e8fbaaf5e852cb93ddd8")]
 [assembly: System.Reflection.AssemblyProductAttribute("distant")]
 [assembly: System.Reflection.AssemblyTitleAttribute("distant")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

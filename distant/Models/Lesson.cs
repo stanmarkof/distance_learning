@@ -1,6 +1,4 @@
-﻿
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace distant.Models
 {
@@ -14,5 +12,7 @@ namespace distant.Models
         public Lecturer? Lecturer { get; set; } // Ссылка может быть null
 
         public ICollection<Group> Groups { get; set; } = new List<Group>(); // Указываем значение по умолчанию
+        public ICollection<Material> Materials { get; set; } = new List<Material>(); // Добавляем коллекцию материалов
+        public ICollection<Test> Tests { get; set; } = new List<Test>(); // Добавляем коллекцию тестов
     }
 }

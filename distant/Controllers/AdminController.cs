@@ -29,6 +29,8 @@ namespace distant.Controllers
             _logger = logger;  // Инициализация логгера
         }
 
+
+
         // Страница управления пользователями
         public async Task<IActionResult> ManageUsers(string searchUserId = null, string searchRole=null)
         {
@@ -212,6 +214,10 @@ namespace distant.Controllers
             return RedirectToAction("ViewFeedbacks");
         }
 
+
+
+
+
         public IActionResult CreateGroup()
         {
             return View();
@@ -243,7 +249,7 @@ namespace distant.Controllers
                         _logger.LogWarning("Group not saved. SaveChanges returned 0.");
                     }
 
-                    return RedirectToAction("ManageUsers");
+                    return RedirectToAction("Index", "Home");
                 }
                 catch (Exception ex)
                 {

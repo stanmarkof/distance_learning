@@ -1,0 +1,10 @@
+﻿@model distant.Models.Material
+
+<h2>@Model.Title</h2>
+
+<p>@Model.Content</p> <!-- Отображаем содержимое материала -->
+<!-- Если материал связан с каким-либо файлом или ссылкой -->
+@if (!string.IsNullOrEmpty(Model.Content))
+{
+    <p>Содержание: @Model.Content</p>
+}
